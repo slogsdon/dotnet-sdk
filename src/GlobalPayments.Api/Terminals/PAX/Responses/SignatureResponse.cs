@@ -23,14 +23,7 @@ namespace GlobalPayments.Api.Terminals.PAX {
 
                 var signatureData = br.ReadToCode(ControlCodes.ETX);
 
-                int imageWidth = 150;
-                switch (_deviceType) {
-                    case DeviceType.PAX_PX5:
-                    case DeviceType.PAX_PX7: {
-                            imageWidth = 350;
-                        } break;
-                }
-                SignatureData = TerminalUtilities.BuildSignatureImage(signatureData, imageWidth);
+                SignatureData = System.Text.Encoding.ASCII.GetBytes(signatureData);
             }
         }
     }

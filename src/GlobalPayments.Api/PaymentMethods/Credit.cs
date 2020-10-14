@@ -48,6 +48,11 @@ namespace GlobalPayments.Api.PaymentMethods {
         }
 
         /// <summary>
+        /// The name of the issuing Bank
+        /// </summary>
+        public string BankName { get; set; }
+
+        /// <summary>
         /// Creates an authorization against the payment method.
         /// </summary>
         /// <param name="amount">The amount of the transaction</param>
@@ -122,12 +127,13 @@ namespace GlobalPayments.Api.PaymentMethods {
         /// </summary>
         /// <returns>AuthorizationBuilder</returns>
         public string Tokenize(string configName = "default") {
-            return Tokenize(true, configName);
+            return Tokenize(true, "", configName);
         }
-        public string Tokenize(bool verifyCard, string configName = "default") {
+        public string Tokenize(bool verifyCard, string billingPostalCode = "", string configName = "default") {
             TransactionType type = verifyCard ? TransactionType.Verify : TransactionType.Tokenize;
 
             var response =  new AuthorizationBuilder(type, this)
+                .WithAddress(new Address {  PostalCode = billingPostalCode })
                 .WithRequestMultiUseToken(verifyCard)
                 .Execute(configName);
             return response.Token;

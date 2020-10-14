@@ -9,6 +9,11 @@ namespace GlobalPayments.Api.PaymentMethods {
     public abstract class Debit : IPaymentMethod, IPrePaid, IRefundable, IReversable, IChargable, IEncryptable, IPinProtected {
         public string CardType { get; set; }
 
+        /// <summary>
+        /// The name of the issuing Bank
+        /// </summary>
+        public string BankName { get; set; }
+
         public EncryptionData EncryptionData { get; set; }
 
         /// <summary>

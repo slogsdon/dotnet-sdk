@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Sockets;
-using System.Text.RegularExpressions;
-using GlobalPayments.Api.Entities;
+﻿using GlobalPayments.Api.Entities;
 using GlobalPayments.Api.Terminals;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Net.Sockets;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
-namespace GlobalPayments.Api.Utils {
+namespace GlobalPayments.Api.Utils
+{
     public static class Extensions {
         public static string FormatWith(this string pattern, params object[] values) {
             return string.Format(pattern, values);

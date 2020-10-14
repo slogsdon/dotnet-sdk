@@ -23,7 +23,7 @@ namespace GlobalPayments.Api.Entities {
         /// </summary>
         /// <returns>TResult</returns>
         public TResult Create(string configName = "default") {
-            return RecurringService.Create(this as TResult);
+            return RecurringService.Create(this as TResult, configName);
         }
 
         /// <summary>
@@ -31,9 +31,9 @@ namespace GlobalPayments.Api.Entities {
         /// </summary>
         /// <param name="force">Indicates if the deletion should be forced</summary>
         /// <exception cref="ApiException">Thrown when the record cannot be deleted.</exception>
-        public void Delete(bool force = false) {
+        public void Delete(bool force = false, string configName = "default") {
             try {
-                RecurringService.Delete(this as TResult, force);
+                RecurringService.Delete(this as TResult, force, configName);
             }
             catch (ApiException exc) {
                 throw new ApiException("Failed to delete record, see inner exception for more details", exc);
@@ -57,7 +57,7 @@ namespace GlobalPayments.Api.Entities {
                     .Execute();
                 var entity = response.FirstOrDefault();
                 if (entity != null && entity.Id == id)
-                    return RecurringService.Get<TResult>(entity.Key);
+                    return RecurringService.Get<TResult>(entity.Key, configName);
                 return null;
             }
             throw new UnsupportedTransactionException();
@@ -72,7 +72,7 @@ namespace GlobalPayments.Api.Entities {
         public static List<TResult> FindAll(string configName = "default") {
             var client = ServicesContainer.Instance.GetRecurringClient(configName);
             if (client.SupportsRetrieval) {
-                return RecurringService.Search<List<TResult>>().Execute();
+                return RecurringService.Search<List<TResult>>().Execute(configName);
             }
             throw new UnsupportedTransactionException();
         }
@@ -94,9 +94,9 @@ namespace GlobalPayments.Api.Entities {
         /// Any modified properties will be persisted with the gateway.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when the record cannot be updated.</exception>
-        public void SaveChanges() {
+        public void SaveChanges(string configName = "default") {
             try {
-                RecurringService.Edit(this as TResult);
+                RecurringService.Edit(this as TResult, configName);
             }
             catch (ApiException exc) {
                 throw new ApiException("Update failed, see inner exception for more details", exc);

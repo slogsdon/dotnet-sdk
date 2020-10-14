@@ -16,5 +16,8 @@
         public const string GENIUS_TERMINAL_TEST = "https://transport.merchantware.net/v4/transportService.asmx";
         public const string TRANSIT_MULTIPASS_PRODUCTION = "https://gateway.transit-pass.com/servlets/TransNox_API_Server";
         public const string TRANSIT_MULTIPASS_TEST = "https://stagegw.transnox.com/servlets/TransNox_API_Server";
+        internal const string BILLPAY_TEST = "https://testing.heartlandpaymentservices.net/";
+        public const string BILLPAY_CERTIFICATION = "https://staging.heartlandpaymentservices.net/";
+        public const string BILLPAY_PRODUCTION = "https://heartlandpaymentservices.net/";
     }
 }

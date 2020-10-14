@@ -59,8 +59,6 @@ namespace GlobalPayments.Api.Entities {
         /// </summary>
         public BatchSummary BatchSummary { get; set; }
 
-        public string CardBrandTransactionId { get; set; }
-
         /// <summary>
         /// The type of card used in the transaction.
         /// </summary>
@@ -156,6 +154,11 @@ namespace GlobalPayments.Api.Entities {
         /// The commercial indicator for Level II/III.
         /// </summary>
         public string CommercialIndicator { get; set; }
+
+        /// <summary>
+        /// The fee amount to charge
+        /// </summary>
+        public decimal ConvenienceFee { get; set; }
 
         /// <summary>
         /// The card verification number (CVN) response code.

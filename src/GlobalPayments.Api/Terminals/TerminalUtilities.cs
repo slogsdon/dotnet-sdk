@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Drawing;
 using System.Collections.Generic;
 using System.Text;
 using GlobalPayments.Api.Terminals.Abstractions;
 using GlobalPayments.Api.Terminals.HPA;
 using System.IO;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 
 namespace GlobalPayments.Api.Terminals {
     public class TerminalUtilities {
@@ -101,46 +98,6 @@ namespace GlobalPayments.Api.Terminals {
             for (int i = 1; i < length; i++)
                 lrc = (byte)(lrc ^ buffer[i]);
             return lrc;
-        }
-
-        public static byte[] BuildSignatureImage(string pathData, int width = 150) {
-            Func<string, Point> toPoint = (coord) => {
-                var xy = coord.Split(',');
-                return new Point {
-                    X = int.Parse(xy[0]),
-                    Y = int.Parse(xy[1])
-                };
-            };
-
-            // parse instructions
-            var coordinates = pathData.Split('^');
-
-            Bitmap bmp = new Bitmap(width, 100);
-
-            var gfx = Graphics.FromImage(bmp);
-            gfx.Clear(Color.White);
-
-            var index = 0;
-            var coordinate = coordinates[index++];
-            do {
-                if(coordinate == "0,65535")
-                    coordinate = coordinates[index++];
-                var start = toPoint(coordinate);
-
-                coordinate = coordinates[index++];
-                if (coordinate == "0,65535")
-                    gfx.FillRectangle(Brushes.Black, start.X, start.Y, 1, 1);
-                else {
-                    var end = toPoint(coordinate);
-                    gfx.DrawLine(Pens.Black, start, end);
-                }
-            }
-            while (coordinates[index] != "~");
-
-            using (var ms = new MemoryStream()) {
-                bmp.Save(ms, ImageFormat.Bmp);
-                return ms.ToArray();
-            }
         }
     }
 }

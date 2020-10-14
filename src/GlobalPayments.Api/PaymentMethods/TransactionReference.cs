@@ -3,15 +3,14 @@ using GlobalPayments.Api.Network.Entities;
 
 namespace GlobalPayments.Api.PaymentMethods {
     internal class TransactionReference : IPaymentMethod {
-        internal PaymentMethodType _paymentMethodType;
         public PaymentMethodType PaymentMethodType {
             get {
                 if (OriginalPaymentMethod != null) {
                     return OriginalPaymentMethod.PaymentMethodType;
                 }
-                return _paymentMethodType;
+                return PaymentMethodType;
             }
-            set { _paymentMethodType = value; }
+            set { }
         }
         public string AuthCode { get; set; }
         public string BatchNumber { get; set; }

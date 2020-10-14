@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using GlobalPayments.Api.Entities;
+using GlobalPayments.Api.Entities;	
+using GlobalPayments.Api.Entities.Billing;
 using GlobalPayments.Api.Network.Entities;
 using GlobalPayments.Api.PaymentMethods;
 
@@ -21,7 +22,6 @@ namespace GlobalPayments.Api.Builders {
         internal AutoSubstantiation AutoSubstantiation { get; set; }
         internal InquiryType? BalanceInquiryType { get; set; }
         internal Address BillingAddress { get; set; }
-        internal string CardBrandTransactionId { get; set; }
         internal decimal? CashBackAmount { get; set; }
         internal string ClientTransactionId { get; set; }
         internal CommercialData CommercialData { get; set; }
@@ -69,8 +69,9 @@ namespace GlobalPayments.Api.Builders {
         internal FeeType FeeType { get; set; }
         internal string ShiftNumber { get; set; }
         internal string ClerkId { get; set; }
-        internal string TransportData { get; set; }
-        internal StoredCredentialInitiator? TransactionInitiator { get; set; }
+        internal string TransportData { get; set; }	
+        internal IEnumerable<Bill> Bills { get; set; }	
+        internal Customer Customer { get; set; }
 
         internal bool HasEmvFallbackData {
             get {
@@ -185,12 +186,6 @@ namespace GlobalPayments.Api.Builders {
 
         internal AuthorizationBuilder WithBalanceInquiryType(InquiryType? value) {
             BalanceInquiryType = value;
-            return this;
-        }
-
-        public AuthorizationBuilder WithCardBrandStorage(StoredCredentialInitiator transactionInitiator, string value = null) {
-            TransactionInitiator = transactionInitiator;
-            CardBrandTransactionId = value;
             return this;
         }
 
@@ -678,6 +673,24 @@ namespace GlobalPayments.Api.Builders {
             return this;
         }
 
+        /// <summary>	
+        /// Adds the bills to the transaction, where applicable	
+        /// </summary>	
+        /// <param name="values">The transaction's bills</param>	
+        /// <returns>AuthorizationBuilder</returns>	
+        public AuthorizationBuilder WithBills(params Bill[] values) {	
+            Bills = values;	
+            return this;	
+        }	
+        /// <summary>	
+        /// Sets the customer, where applicable	
+        /// </summary>	
+        /// <param name="value">The transaction's customer</param>	
+        /// <returns>AuthorizationBuilder</returns>	
+        public AuthorizationBuilder WithCustomer(Customer value) {	
+            Customer = value;	
+            return this;	
+        }
 
         /// <summary>
         /// Lodging data information for Portico 
@@ -719,7 +732,7 @@ namespace GlobalPayments.Api.Builders {
             if (client.SupportsHostedPayments) {
                 return client.SerializeRequest(this);
             }
-            throw new UnsupportedTransactionException("You current gateway does not support hosted payments.");
+            throw new UnsupportedTransactionException("Your current gateway does not support hosted payments.");
         }
 
         protected override void SetupValidations() {

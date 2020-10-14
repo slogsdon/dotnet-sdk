@@ -653,7 +653,7 @@ namespace GlobalPayments.Api.Gateways {
             }
             throw new UnsupportedTransactionException(string.Format("Unknown transaction type {0}", transType));
         }
-
+        
         #endregion
 
         #region response mapping

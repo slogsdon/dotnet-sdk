@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using GlobalPayments.Api.Entities;
+﻿using GlobalPayments.Api.Entities;
+using System.Collections.Generic;
 
-namespace GlobalPayments.Api.Builders {
+namespace GlobalPayments.Api.Builders
+{
     public class RecurringBuilder<TResult> : TransactionBuilder<TResult> where TResult : class {
         internal string Key { get; set; }
         internal string OrderId { get; set; }
